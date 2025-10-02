@@ -1,0 +1,83 @@
+/*
+DIAGRAMA UML DEL PATRÓN ABSTRACT FACTORY
+==========================================
+
+                    ┌─────────────────┐
+                    │   IGUIFactory   │◄─────────────┐
+                    │   <<interface>> │              │
+                    ├─────────────────┤              │
+                    │ + CreateButton()│              │
+                    │ + CreateCheckbox│              │
+                    └─────────────────┘              │
+                           ▲                         │
+                           │                         │
+              ┌────────────┴────────────┐           │
+              │                         │           │
+    ┌─────────────────┐       ┌─────────────────┐   │
+    │WindowsGUIFactory│       │LinuxGUIFactory  │   │
+    ├─────────────────┤       ├─────────────────┤   │
+    │+ CreateButton() │       │+ CreateButton() │   │
+    │+ CreateCheckbox│       │+ CreateCheckbox │   │
+    └─────────────────┘       └─────────────────┘   │
+              │                         │           │
+              │creates                  │creates    │
+              ▼                         ▼           │
+    ┌─────────────────┐       ┌─────────────────┐   │
+    │  WindowsButton  │       │   LinuxButton   │   │
+    │  WindowsCheckbox│       │   LinuxCheckbox │   │
+    └─────────────────┘       └─────────────────┘   │
+                                                    │
+              ┌─────────────────┐                   │
+              │   Application   │───────────────────┘
+              │    (Client)     │
+              ├─────────────────┤
+              │ - factory       │
+              │ - button        │
+              │ - checkbox      │
+              ├─────────────────┤
+              │ + CreateUI()    │
+              │ + RenderUI()    │
+              │ + InteractWith()│
+              └─────────────────┘
+
+FLUJO DEL PATRÓN:
+=================
+
+1. GUIFactoryProvider determina qué fábrica usar según el SO
+2. Se pasa la fábrica concreta al Application (cliente)
+3. Application usa la fábrica para crear productos sin conocer las clases concretas
+4. Cada fábrica concreta crea productos compatibles entre sí
+5. El cliente interactúa solo con interfaces, no con implementaciones
+
+BENEFICIOS:
+===========
+
+✅ SEPARACIÓN DE RESPONSABILIDADES
+   - Cada fábrica se encarga de su familia de productos
+   - El cliente no conoce implementaciones concretas
+
+✅ INTERCAMBIABILIDAD
+   - Cambiar de Windows a Linux requiere solo cambiar la fábrica
+   - No se modifica código del cliente
+
+✅ CONSISTENCIA
+   - Productos de la misma familia siempre son compatibles
+   - WindowsButton y WindowsCheckbox tienen el mismo look & feel
+
+✅ EXTENSIBILIDAD
+   - Agregar macOS: crear MacOSFactory y productos
+   - No se modifica código existente
+
+✅ POLIMORFISMO
+   - Todo funciona a través de interfaces
+   - Runtime determina qué implementación usar
+
+CUÁNDO USAR:
+============
+
+- Sistema debe ser independiente de cómo se crean sus productos
+- Sistema se configura con múltiples familias de productos
+- Familias de productos están diseñadas para trabajar juntas
+- Se quiere ocultar implementaciones concretas del cliente
+
+*/
