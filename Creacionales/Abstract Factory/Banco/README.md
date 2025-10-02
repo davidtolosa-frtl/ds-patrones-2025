@@ -5,6 +5,215 @@ Esta aplicación demuestra la implementación del patrón de diseño **Abstract 
 
 ## Patrón Abstract Factory Implementado
 
+### Diagrama de Clases
+
+```mermaid
+classDiagram
+    %% Interfaces de Productos Abstractos
+    class ITarjetaCredito {
+        <<interface>>
+        +ObtenerLimite() decimal
+        +ObtenerTasa() decimal
+        +ProcesarPago(decimal monto) void
+        +ConsultarSaldo() void
+    }
+
+    class ICajaAhorro {
+        <<interface>>
+        +ObtenerTasa() decimal
+        +Depositar(decimal monto) void
+        +Retirar(decimal monto) void
+        +ConsultarSaldo() decimal
+    }
+
+    class ITarjetaDebito {
+        <<interface>>
+        +ObtenerLimiteRetiro() decimal
+        +RealizarCompra(decimal monto) void
+        +RetirarEfectivo(decimal monto) void
+    }
+
+    %% Abstract Factory
+    class IBancoProductoFactory {
+        <<abstract>>
+        +CrearTarjetaCredito()* ITarjetaCredito
+        +CrearCajaAhorro()* ICajaAhorro
+        +CrearTarjetaDebito()* ITarjetaDebito
+    }
+
+    %% Concrete Factories
+    class ClassicFactory {
+        +CrearTarjetaCredito() ITarjetaCredito
+        +CrearCajaAhorro() ICajaAhorro
+        +CrearTarjetaDebito() ITarjetaDebito
+    }
+
+    class GoldFactory {
+        +CrearTarjetaCredito() ITarjetaCredito
+        +CrearCajaAhorro() ICajaAhorro
+        +CrearTarjetaDebito() ITarjetaDebito
+    }
+
+    class PlatinumFactory {
+        +CrearTarjetaCredito() ITarjetaCredito
+        +CrearCajaAhorro() ICajaAhorro
+        +CrearTarjetaDebito() ITarjetaDebito
+    }
+
+    %% Concrete Products - Classic
+    class TarjetaCreditoClassic {
+        -decimal limite
+        -decimal tasa
+        -decimal saldoActual
+        +ObtenerLimite() decimal
+        +ObtenerTasa() decimal
+        +ProcesarPago(decimal monto) void
+        +ConsultarSaldo() void
+    }
+
+    class CajaAhorroClassic {
+        -decimal saldo
+        -decimal tasa
+        +ObtenerTasa() decimal
+        +Depositar(decimal monto) void
+        +Retirar(decimal monto) void
+        +ConsultarSaldo() decimal
+    }
+
+    class TarjetaDebitoClassic {
+        -decimal limiteRetiro
+        -decimal saldo
+        +ObtenerLimiteRetiro() decimal
+        +RealizarCompra(decimal monto) void
+        +RetirarEfectivo(decimal monto) void
+    }
+
+    %% Concrete Products - Gold
+    class TarjetaCreditoGold {
+        -decimal limite
+        -decimal tasa
+        -decimal cashback
+        -decimal saldoActual
+        +ObtenerLimite() decimal
+        +ObtenerTasa() decimal
+        +ProcesarPago(decimal monto) void
+        +ConsultarSaldo() void
+    }
+
+    class CajaAhorroGold {
+        -decimal saldo
+        -decimal tasa
+        +ObtenerTasa() decimal
+        +Depositar(decimal monto) void
+        +Retirar(decimal monto) void
+        +ConsultarSaldo() decimal
+    }
+
+    class TarjetaDebitoGold {
+        -decimal limiteRetiro
+        -decimal saldo
+        +ObtenerLimiteRetiro() decimal
+        +RealizarCompra(decimal monto) void
+        +RetirarEfectivo(decimal monto) void
+    }
+
+    %% Concrete Products - Platinum
+    class TarjetaCreditoPlatinum {
+        -decimal limite
+        -decimal tasa
+        -decimal cashback
+        -decimal saldoActual
+        +ObtenerLimite() decimal
+        +ObtenerTasa() decimal
+        +ProcesarPago(decimal monto) void
+        +ConsultarSaldo() void
+    }
+
+    class CajaAhorroPlatinum {
+        -decimal saldo
+        -decimal tasa
+        +ObtenerTasa() decimal
+        +Depositar(decimal monto) void
+        +Retirar(decimal monto) void
+        +ConsultarSaldo() decimal
+    }
+
+    class TarjetaDebitoPlatinum {
+        -decimal limiteRetiro
+        -decimal saldo
+        +ObtenerLimiteRetiro() decimal
+        +RealizarCompra(decimal monto) void
+        +RetirarEfectivo(decimal monto) void
+    }
+
+    %% Factory Provider
+    class BancoFactoryProvider {
+        <<static>>
+        +ObtenerFactory(TipoPaquete paquete)$ IBancoProductoFactory
+    }
+
+    %% Cliente
+    class Cliente {
+        -string nombre
+        -TipoPaquete paquete
+        -ITarjetaCredito tarjetaCredito
+        -ICajaAhorro cajaAhorro
+        -ITarjetaDebito tarjetaDebito
+        +Cliente(string nombre, TipoPaquete paquete)
+        +MostrarProductos() void
+    }
+
+    %% Enum
+    class TipoPaquete {
+        <<enumeration>>
+        Classic
+        Gold
+        Platinum
+    }
+
+    %% Relaciones - Factories
+    IBancoProductoFactory <|-- ClassicFactory : extends
+    IBancoProductoFactory <|-- GoldFactory : extends
+    IBancoProductoFactory <|-- PlatinumFactory : extends
+
+    %% Relaciones - Classic Products
+    ITarjetaCredito <|.. TarjetaCreditoClassic : implements
+    ICajaAhorro <|.. CajaAhorroClassic : implements
+    ITarjetaDebito <|.. TarjetaDebitoClassic : implements
+
+    %% Relaciones - Gold Products
+    ITarjetaCredito <|.. TarjetaCreditoGold : implements
+    ICajaAhorro <|.. CajaAhorroGold : implements
+    ITarjetaDebito <|.. TarjetaDebitoGold : implements
+
+    %% Relaciones - Platinum Products
+    ITarjetaCredito <|.. TarjetaCreditoPlatinum : implements
+    ICajaAhorro <|.. CajaAhorroPlatinum : implements
+    ITarjetaDebito <|.. TarjetaDebitoPlatinum : implements
+
+    %% Relaciones de creación
+    ClassicFactory ..> TarjetaCreditoClassic : creates
+    ClassicFactory ..> CajaAhorroClassic : creates
+    ClassicFactory ..> TarjetaDebitoClassic : creates
+
+    GoldFactory ..> TarjetaCreditoGold : creates
+    GoldFactory ..> CajaAhorroGold : creates
+    GoldFactory ..> TarjetaDebitoGold : creates
+
+    PlatinumFactory ..> TarjetaCreditoPlatinum : creates
+    PlatinumFactory ..> CajaAhorroPlatinum : creates
+    PlatinumFactory ..> TarjetaDebitoPlatinum : creates
+
+    %% Relaciones con Provider y Cliente
+    BancoFactoryProvider ..> IBancoProductoFactory : provides
+    BancoFactoryProvider --> TipoPaquete : uses
+
+    Cliente --> TipoPaquete : uses
+    Cliente --> ITarjetaCredito : uses
+    Cliente --> ICajaAhorro : uses
+    Cliente --> ITarjetaDebito : uses
+```
+
 ### Estructura del Patrón
 
 #### Productos Abstractos

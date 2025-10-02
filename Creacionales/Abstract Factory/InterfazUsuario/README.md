@@ -35,6 +35,106 @@ InterfazUsuario/
 └── Program.cs               # Programa principal
 ```
 
+## Diagrama de Clases
+
+```mermaid
+classDiagram
+    %% Interfaces (Productos Abstractos)
+    class IButton {
+        <<interface>>
+        +Paint() void
+        +OnClick() void
+    }
+
+    class ICheckbox {
+        <<interface>>
+        +Paint() void
+        +Toggle() void
+    }
+
+    %% Abstract Factory
+    class IGUIFactory {
+        <<interface>>
+        +CreateButton() IButton
+        +CreateCheckbox() ICheckbox
+    }
+
+    %% Concrete Factories
+    class WindowsGUIFactory {
+        +CreateButton() IButton
+        +CreateCheckbox() ICheckbox
+    }
+
+    class LinuxGUIFactory {
+        +CreateButton() IButton
+        +CreateCheckbox() ICheckbox
+    }
+
+    %% Concrete Products - Windows
+    class WindowsButton {
+        +Paint() void
+        +OnClick() void
+    }
+
+    class WindowsCheckbox {
+        -bool isChecked
+        +Paint() void
+        +Toggle() void
+    }
+
+    %% Concrete Products - Linux
+    class LinuxButton {
+        +Paint() void
+        +OnClick() void
+    }
+
+    class LinuxCheckbox {
+        -bool isChecked
+        +Paint() void
+        +Toggle() void
+    }
+
+    %% Client
+    class Application {
+        -IGUIFactory factory
+        -IButton button
+        -ICheckbox checkbox
+        +Application(IGUIFactory factory)
+        +CreateUI() void
+        +Paint() void
+        +InteractWithUI() void
+    }
+
+    %% Factory Provider
+    class GUIFactoryProvider {
+        <<static>>
+        +GetFactory(OSType osType)$ IGUIFactory
+        +GetFactoryForCurrentOS()$ IGUIFactory
+    }
+
+    %% Relaciones
+    IGUIFactory <|.. WindowsGUIFactory : implements
+    IGUIFactory <|.. LinuxGUIFactory : implements
+
+    IButton <|.. WindowsButton : implements
+    IButton <|.. LinuxButton : implements
+
+    ICheckbox <|.. WindowsCheckbox : implements
+    ICheckbox <|.. LinuxCheckbox : implements
+
+    WindowsGUIFactory ..> WindowsButton : creates
+    WindowsGUIFactory ..> WindowsCheckbox : creates
+
+    LinuxGUIFactory ..> LinuxButton : creates
+    LinuxGUIFactory ..> LinuxCheckbox : creates
+
+    Application --> IGUIFactory : uses
+    Application --> IButton : uses
+    Application --> ICheckbox : uses
+
+    GUIFactoryProvider ..> IGUIFactory : provides
+```
+
 ## Componentes del Patrón
 
 ### 1. Abstract Factory (IGUIFactory)
