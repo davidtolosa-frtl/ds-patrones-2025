@@ -22,7 +22,8 @@ PatronesDiseño/
 ├── Comportamiento/        # Behavioral Patterns
 │   └── Strategy/          # Vehicle catalog display strategies
 └── Estructurales/         # Structural Patterns
-    └── Adapter/           # Basic adapter example
+    ├── Adapter/           # Basic adapter example
+    └── Facade/            # Home cinema system facade
 ```
 
 ## Building and Running
