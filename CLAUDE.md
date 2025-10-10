@@ -23,7 +23,8 @@ PatronesDiseño/
 │   └── Strategy/          # Vehicle catalog display strategies
 └── Estructurales/         # Structural Patterns
     ├── Adapter/           # Basic adapter example
-    └── Facade/            # Home cinema system facade
+    ├── Facade/            # Home cinema system facade
+    └── Composite/         # Company hierarchy with maintenance cost calculation
 ```
 
 ## Building and Running
@@ -52,6 +53,7 @@ dotnet build "Creacionales/Abstract Factory/Banco/BancoApp/BancoApp.csproj"
 dotnet build "Creacionales/Abstract Factory/CatalogoVehiculos/CatalogoVehiculos.csproj"
 dotnet build "Comportamiento/Strategy/Strategy.csproj"
 dotnet build "Estructurales/Adapter/Adapter.csproj"
+dotnet build "Estructurales/Composite/Composite.csproj"
 ```
 
 ## Pattern Implementations

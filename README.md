@@ -22,6 +22,8 @@ Este repositorio contiene ejemplos completos y funcionales de los siguientes pat
 ### Patrones Estructurales
 
 - **[Adapter](#adapter)** - Adaptación de interfaces incompatibles
+- **[Facade](#facade)** - Fachada para simplificar sistemas complejos
+- **[Composite](#composite)** - Jerarquía de empresas con cálculo de costes
 
 ## 🚀 Requisitos
 
