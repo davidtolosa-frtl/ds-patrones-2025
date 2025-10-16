@@ -24,6 +24,7 @@ Este repositorio contiene ejemplos completos y funcionales de los siguientes pat
 - **[Adapter](#adapter)** - Adaptación de interfaces incompatibles
 - **[Facade](#facade)** - Fachada para simplificar sistemas complejos
 - **[Composite](#composite)** - Jerarquía de empresas con cálculo de costes
+- **[Decorator](#decorator)** - Decoración dinámica de visualización de vehículos
 
 ## 🚀 Requisitos
 
@@ -214,6 +215,128 @@ dotnet run
 
 ---
 
+### Facade
+
+**Ubicación:** `Estructurales/Facade/`
+
+Simplifica el uso de un sistema complejo de cine en casa mediante una fachada unificada.
+
+```bash
+cd "Estructurales/Facade"
+dotnet run
+```
+
+**Características:**
+- Interfaz simplificada para múltiples subsistemas
+- Reduce la complejidad de interacción
+- Encapsula la lógica de control de múltiples dispositivos
+
+---
+
+### Composite
+
+**Ubicación:** `Estructurales/Composite/`
+
+Permite componer objetos en estructuras de árbol para representar jerarquías parte-todo. Implementa un sistema de empresas con filiales que calcula costes de mantenimiento de vehículos.
+
+```bash
+cd "Estructurales/Composite"
+dotnet run
+```
+
+**Características:**
+- Estructura jerárquica de empresas (madre y filiales)
+- Tratamiento uniforme de objetos individuales y compuestos
+- Cálculo recursivo de costes de mantenimiento
+- Dos tipos de empresas:
+  - **EmpresaSinFilial**: Empresa hoja sin filiales
+  - **EmpresaMadre**: Empresa compuesta que puede contener filiales
+
+**Estructura:**
+- `Empresa` - Componente abstracto base
+- `EmpresaSinFilial` - Hoja (leaf) del árbol
+- `EmpresaMadre` - Compuesto (composite) que contiene filiales
+
+**Ejemplo de uso:**
+```csharp
+// Crear empresas sin filiales
+Empresa filial1 = new EmpresaSinFilial();
+filial1.agregaVehiculo();
+filial1.agregaVehiculo();
+
+// Crear empresa madre y agregar filiales
+Empresa empresaMadre = new EmpresaMadre();
+empresaMadre.agregaVehiculo();
+empresaMadre.agregaFilial(filial1);
+
+// Calcular coste total (incluye filiales)
+double costeTotal = empresaMadre.calculaCosteMantenimiento();
+```
+
+**Ventajas:**
+- Simplifica el código del cliente al tratar objetos individuales y compuestos uniformemente
+- Facilita agregar nuevos tipos de componentes
+- Estructura natural para jerarquías recursivas
+
+---
+
+### Decorator
+
+**Ubicación:** `Estructurales/Decorator/`
+
+Permite añadir funcionalidades adicionales a objetos de forma dinámica. Implementa un sistema de visualización de vehículos donde se pueden agregar características (modelo, marca) mediante decoradores apilables.
+
+```bash
+cd "Estructurales/Decorator"
+dotnet run
+```
+
+**Características:**
+- Añade responsabilidades a objetos en tiempo de ejecución
+- Alternativa flexible a la herencia para extender funcionalidad
+- Los decoradores se pueden apilar en cualquier orden
+- Transparencia: decoradores y componentes comparten la misma interfaz
+- Composición sobre herencia
+
+**Estructura:**
+- `ComponenteGraficoVehiculo` - Interfaz común para componentes y decoradores
+- `VistaVehiculo` - Componente concreto base (visualización básica)
+- `Decorador` - Clase abstracta decoradora que envuelve un componente
+- `ModeloDecorador` - Decorador concreto que añade información del modelo
+- `MarcaDecorador` - Decorador concreto que añade información de la marca
+
+**Ejemplo de uso:**
+```csharp
+// Crear componente base
+VistaVehiculo vista = new VistaVehiculo();
+
+// Decorar con información del modelo
+ModeloDecorador modeloDecorador = new ModeloDecorador(vista);
+modeloDecorador.visualiza();
+
+// Apilar otro decorador para añadir la marca
+MarcaDecorador marcaDecorador = new MarcaDecorador(modeloDecorador);
+marcaDecorador.visualiza();
+```
+
+**Salida esperada:**
+```
+Visualizando vehículo...
+Mostrando modelo del vehículo...
+Visualizando vehículo...
+Mostrando modelo del vehículo...
+Mostrando marca del vehículo...
+```
+
+**Ventajas:**
+- Más flexible que la herencia estática
+- Evita clases sobrecargadas con muchas características en la parte superior de la jerarquía
+- Se puede añadir o quitar responsabilidades en tiempo de ejecución
+- Se pueden combinar varios decoradores para crear comportamientos complejos
+- Cumple el principio Open/Closed (abierto para extensión, cerrado para modificación)
+
+---
+
 ## 🏗️ Estructura del Proyecto
 
 ```
@@ -232,7 +355,10 @@ PatronesDiseño/
 │   └── Strategy/                # Estrategias de visualización
 │
 └── Estructurales/
-    └── Adapter/                 # Adaptador de interfaces
+    ├── Adapter/                 # Adaptador de interfaces
+    ├── Facade/                  # Fachada de sistema de cine
+    ├── Composite/               # Jerarquía de empresas
+    └── Decorator/               # Decoración de vistas de vehículos
 ```
 
 ## 🎯 Objetivos de Aprendizaje
