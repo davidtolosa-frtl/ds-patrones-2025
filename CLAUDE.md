@@ -20,11 +20,13 @@ PatronesDiseño/
 │       ├── Banco/              # Banking system with product packages
 │       └── CatalogoVehiculos/  # Vehicle catalog (Gas/Electric/Hybrid)
 ├── Comportamiento/        # Behavioral Patterns
+│   ├── Observer/          # Vehicle notification system
 │   └── Strategy/          # Vehicle catalog display strategies
 └── Estructurales/         # Structural Patterns
     ├── Adapter/           # Basic adapter example
     ├── Facade/            # Home cinema system facade
-    └── Composite/         # Company hierarchy with maintenance cost calculation
+    ├── Composite/         # Company hierarchy with maintenance cost calculation
+    └── Decorator/         # Vehicle display decoration
 ```
 
 ## Building and Running
@@ -51,9 +53,12 @@ dotnet build "Creacionales/Builder/Builder.csproj"
 dotnet build "Creacionales/Abstract Factory/InterfazUsuario/InterfazUsuario.csproj"
 dotnet build "Creacionales/Abstract Factory/Banco/BancoApp/BancoApp.csproj"
 dotnet build "Creacionales/Abstract Factory/CatalogoVehiculos/CatalogoVehiculos.csproj"
+dotnet build "Comportamiento/Observer/Observer.csproj"
 dotnet build "Comportamiento/Strategy/Strategy.csproj"
 dotnet build "Estructurales/Adapter/Adapter.csproj"
+dotnet build "Estructurales/Facade/Facade.csproj"
 dotnet build "Estructurales/Composite/Composite.csproj"
+dotnet build "Estructurales/Decorator/Decorator.csproj"
 ```
 
 ## Pattern Implementations
@@ -91,11 +96,19 @@ dotnet build "Estructurales/Composite/Composite.csproj"
 
 ### Behavioral Patterns (Comportamiento)
 
+**Observer - Vehicle Notification System**
+- Location: `Comportamiento/Observer/`
+- Implements notification system where multiple observers react to vehicle state changes
+- Key files: `IObservador.cs`, `Sujeto.cs`, `Vehiculo.cs`
+- Observers: `ClienteNotificaciones` (customers), `SistemaAlarma` (alarm system), `RegistroLog` (logging)
+- Demonstrates loose coupling between subject and observers
+
 **Strategy - Vehicle Catalog Display**
 - Location: `Comportamiento/Strategy/`
 - Displays vehicle catalogs with different layouts
 - Strategies: `DibujaUnVehiculoPorLinea`, `DibujaTresVehiculosPorLinea`, `DibujaCincoVehiculosPorLinea`
 - Context: `VistaCatalogo.cs`
+- Allows runtime switching between display strategies
 
 ### Structural Patterns (Estructurales)
 
@@ -103,6 +116,29 @@ dotnet build "Estructurales/Composite/Composite.csproj"
 - Location: `Estructurales/Adapter/`
 - Basic adapter pattern implementation
 - Adapts `Adaptee` to `ITarget` interface
+- Key files: `ITarget.cs`, `Adaptee.cs`, `AdapterClass.cs`
+- Adaptee returns inverted text; adapter reverses it back to normal format
+
+**Facade - Home Cinema System**
+- Location: `Estructurales/Facade/`
+- Simplifies interaction with complex home cinema system
+- Key files: `CineFacade.cs`, `SistemaCine.cs`
+- Provides simple methods: `VerPelicula()`, `PausarPelicula()`, `FinalizarPelicula()`
+- Coordinates multiple subsystems: lights, projector, sound, seats transparently
+
+**Composite - Company Hierarchy**
+- Location: `Estructurales/Composite/`
+- Represents company hierarchy with subsidiaries
+- Key files: `Empresa.cs` (abstract component), `EmpresaSinFilial.cs` (leaf), `EmpresaMadre.cs` (composite)
+- Calculates total vehicle maintenance costs across hierarchy
+- Both leaf and composite nodes treated uniformly through abstract class
+
+**Decorator - Vehicle Display Decoration**
+- Location: `Estructurales/Decorator/`
+- Dynamically decorates vehicle visualization with additional information
+- Key files: `ComponenteGraficoVehiculo.cs`, `VistaVehiculo.cs`, `Decorador.cs`
+- Decorators: `ModeloDecorador` (adds model info), `MarcaDecorador` (adds brand info)
+- Demonstrates wrapper pattern for behavior enhancement
 
 ## Key Architecture Patterns
 
