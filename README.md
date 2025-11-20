@@ -17,6 +17,7 @@ Este repositorio contiene ejemplos completos y funcionales de los siguientes pat
 
 ### Patrones de Comportamiento
 
+- **[Observer](#observer)** - Sistema de notificaciones de vehículos
 - **[Strategy](#strategy)** - Diferentes estrategias de visualización de catálogos
 
 ### Patrones Estructurales
@@ -169,6 +170,63 @@ dotnet run
 **Tipos de vehículos:**
 - Automóviles
 - Scooters
+
+---
+
+### Observer
+
+**Ubicación:** `Comportamiento/Observer/`
+
+Sistema de notificaciones donde múltiples observadores son notificados automáticamente cuando el estado de un vehículo cambia.
+
+```bash
+cd "Comportamiento/Observer"
+dotnet run
+```
+
+**Características:**
+- Patrón de suscripción/notificación (publish-subscribe)
+- Múltiples observadores pueden suscribirse a un sujeto
+- Actualización automática cuando cambia el estado del sujeto
+- Acoplamiento débil entre sujeto y observadores
+
+**Observadores implementados:**
+- **ClienteNotificaciones**: Cliente interesado en cambios del vehículo
+- **SistemaAlarma**: Sistema de seguridad que reacciona a cambios
+- **RegistroLog**: Sistema de logging que registra todos los cambios
+
+**Estructura:**
+- `IObservador` - Interfaz que deben implementar todos los observadores
+- `Sujeto` - Clase base que gestiona la lista de observadores
+- `Vehiculo` - Sujeto concreto que notifica cuando cambia su descripción
+- Observadores concretos que implementan `IObservador`
+
+**Ejemplo de uso:**
+```csharp
+// Crear vehículo (sujeto)
+Vehiculo vehiculo = new Vehiculo();
+
+// Crear observadores
+ClienteNotificaciones cliente1 = new ClienteNotificaciones("Juan");
+SistemaAlarma alarma = new SistemaAlarma();
+RegistroLog log = new RegistroLog();
+
+// Suscribir observadores
+vehiculo.Agregar(cliente1);
+vehiculo.Agregar(alarma);
+vehiculo.Agregar(log);
+
+// Cambiar estado del vehículo - todos los observadores son notificados
+vehiculo.Descripcion = "Vehículo en movimiento";
+```
+
+**Ventajas:**
+- Permite agregar o eliminar observadores dinámicamente
+- Los observadores no necesitan conocerse entre sí
+- El sujeto no necesita conocer los detalles de los observadores
+- Fácil extensión con nuevos tipos de observadores
+- Cumple el principio Open/Closed
+- Ideal para implementar sistemas de eventos
 
 ---
 
@@ -352,6 +410,7 @@ PatronesDiseño/
 │       └── CatalogoVehiculos/   # Catálogo de vehículos
 │
 ├── Comportamiento/
+│   ├── Observer/                # Sistema de notificaciones
 │   └── Strategy/                # Estrategias de visualización
 │
 └── Estructurales/
